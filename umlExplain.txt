@@ -1,0 +1,2 @@
+This is the class diagram I have so far. I think it is pretty close, but I'm not sure if the package superclass is needed. The only real thing all the child classes have in common is an add function, and eventually some display function. 
+What I considered doing is taking out the Package class and putting the Event class in it's place since all classes need to alert the user of an event at some point. This way it would be aggregated onto all the 4 main child classes instead of just the package class.
