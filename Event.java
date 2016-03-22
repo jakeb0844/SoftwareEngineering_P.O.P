@@ -1,7 +1,8 @@
 //Cory Wheeless
 //3-18
-package eng;
 
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,6 +17,10 @@ public class Event
 	private Calendar calendar;
 	private Date current;
 	private Date event;
+	private int theYear;
+	private int theMonth;
+	private int theDay;
+	//public static ArrayList<Event> the = new ArrayList<Event>();
 	
 	public Event(int year, int month, int day)
 	{
@@ -24,6 +29,10 @@ public class Event
 
 		calendar.set(year, month, day);
 		event = calendar.getTime();
+		
+		 theYear = year;
+		 theMonth= month;
+		 theDay= day;
 	}
 	
 	public void checkDate()
@@ -42,4 +51,17 @@ public class Event
 			System.out.println("No upcoming event");
 		}
 	}
+	
+	public int getYear(){
+		return theYear;
+	}
+	
+	public int getMonth(){
+		return theMonth;
+	}
+	
+	public int getDay(){
+		return theDay;
+	}
+	
 }
