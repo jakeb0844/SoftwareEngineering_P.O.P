@@ -1,3 +1,4 @@
+package Calendar;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -19,6 +20,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import Events.Event2;
+
 
 
 public class calendarGui2 {
@@ -28,8 +31,9 @@ public class calendarGui2 {
     static JTable tblCalendar;
     static DefaultTableModel mtblCalendar; //Table model
     static JScrollPane stblCalendar; //The scrollpane
-    static JPanel pnlCalendar;
-    static int realYear, realMonth, realDay, currentYear, currentMonth;
+    public static JPanel pnlCalendar;
+    public static int realYear, realMonth, realDay, currentYear;
+	public static int currentMonth;
     
     
     public calendarGui2(){
@@ -80,12 +84,14 @@ public class calendarGui2 {
         pnlCalendar.add(stblCalendar);
         
         //Set bounds
+        //pnlCalendar.setBounds(0, 0, 320, 335);
         pnlCalendar.setBounds(0, 0, 320, 335);
         lblMonth.setBounds(160-lblMonth.getPreferredSize().width/2, 25, 100, 25);
         lblYear.setBounds(10, 305, 80, 20);
-        btnPrev.setBounds(10, 25, 50, 25);
-        btnNext.setBounds(260, 25, 50, 25);
+        btnPrev.setBounds(10, 25, 75, 25);
+        btnNext.setBounds(235, 25, 75, 25);
         stblCalendar.setBounds(10, 50, 300, 250);
+        
         
         //Make frame visible
         //frmMain.setResizable(false);
@@ -118,6 +124,7 @@ public class calendarGui2 {
         
         //Set row/column count
         tblCalendar.setRowHeight(38);
+        //tblCalendar.setRowHeight(100);
         mtblCalendar.setColumnCount(7);
         mtblCalendar.setRowCount(6);
         
@@ -183,11 +190,16 @@ public class calendarGui2 {
             
            setBackground(new Color(255,255,255));
                       
-           for(int i=0; i < addEvents.the.size(); i++){
+           /*for(int i=0; i < addEvents.the.size(); i++){
         	   day=addEvents.the.get(i).getDay();
         	   month= addEvents.the.get(i).getMonth()-1;
         	   year= addEvents.the.get(i).getYear();
-        	   
+        	 */
+           
+           for(int i=0; i < Event2.the.size(); i++){
+        	   day=Event2.the.get(i).getDay();
+        	   month= Event2.the.get(i).getMonth()-1;
+        	   year= Event2.the.get(i).getYear();
         	  // System.out.println("current "+currentMonth);
         	  // System.out.println("in the array "+month);
         if(currentYear == year )	   
@@ -198,9 +210,9 @@ public class calendarGui2 {
                 	   
                        setBackground(new Color(255, 220, 220));
                    }
-           }
-           }
-           }
+        	   }
+        	}
+          }
            
           
          
@@ -217,25 +229,17 @@ public class calendarGui2 {
     
     static class btnPrev_Action implements ActionListener{
         public void actionPerformed (ActionEvent e){
-            if (currentMonth == 0){ //Back one year
-                currentMonth = 11;
-                currentYear -= 1;
-            }
-            else{ //Back one month
+            
                 currentMonth -= 1;
-            }
+            
             refreshCalendar(currentMonth, currentYear);
         }
     }
     static class btnNext_Action implements ActionListener{
         public void actionPerformed (ActionEvent e){
-            if (currentMonth == 11){ //Foward one year
-                currentMonth = 0;
-                currentYear += 1;
-            }
-            else{ //Foward one month
+           
                 currentMonth += 1;
-            }
+            
             refreshCalendar(currentMonth, currentYear);
         }
     }

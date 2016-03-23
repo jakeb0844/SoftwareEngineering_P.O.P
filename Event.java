@@ -1,5 +1,8 @@
+package Events;
 //Cory Wheeless
-//3-18
+//3-18 old
+//3-23 Modified by Jake
+//Added the Arraylist and each time a new instance of event is created it adds to the arraylist
 
 
 import java.util.ArrayList;
@@ -20,7 +23,8 @@ public class Event
 	private int theYear;
 	private int theMonth;
 	private int theDay;
-	//public static ArrayList<Event> the = new ArrayList<Event>();
+
+	public static ArrayList<Event> the = new ArrayList<Event>();
 	
 	public Event(int year, int month, int day)
 	{
@@ -33,6 +37,8 @@ public class Event
 		 theYear = year;
 		 theMonth= month;
 		 theDay= day;
+		 
+		 the.add(this);
 	}
 	
 	public void checkDate()
