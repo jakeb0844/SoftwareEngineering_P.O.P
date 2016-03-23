@@ -2,8 +2,12 @@
 //3-18
 package eng;
 
+import java.util.ArrayList;
+
 /*
  * Represents a contact by storing personal information
+ * 
+ * Cory		3/23	put the arraylist from Contacts here instead of having it in its own class
  * */
 
 public class Contact 
@@ -11,6 +15,8 @@ public class Contact
 	//Array of month names. The constructor takes in month number and uses this to store month string
 	private static String[] months= new String[] {"January", "February", "March", "April", "May", "June", "July",
 												  "August", "September", "October", "November", "December"};
+	private static ArrayList<Contact> contacts = new ArrayList<Contact>(25);
+	
 	private String lastName;
 	private String firstName;
 	private String birthMonth;
@@ -30,6 +36,7 @@ public class Contact
 		this.birthday = birthday;
 		this.phoneNumber = phonenumberFix(phoneNumber);
 		this.address = address;
+		contacts.add(this);
 	}
 	
 	public String getLastName() 
@@ -67,6 +74,11 @@ public class Contact
 		return address;
 	}
 	
+	public ArrayList<Contact> getContacts()
+	{
+		return contacts;
+	}
+	
 	//called by constructor to store month string instead of month number
 	private String monthNumberToString(int num)
 	{
@@ -82,14 +94,26 @@ public class Contact
 		result += num.substring(0, 3) + "-" + num.substring(3, 6) + "-" + num.substring(6);
 		return result;
 	}
+	
+	public String contactsToString()
+	{
+		String result = "";
+		int latest = contacts.size() - 1;
+		for(int i = latest; i >= 0; i--)
+		{
+			result += contacts.get(i).toString() + "\n";
+		}
+		
+		return result;
+		
+	}
 
 	@Override
 	public String toString() 
 	{
 		String result = "";
-		result += firstName + " " + lastName + "\n" +
-				  birthMonth + " " + birthday + " " + birthYear + "\n" +
-				  phoneNumber + "\n";
+		result = result + lastName;
+		
 		return result;
 	}
 }

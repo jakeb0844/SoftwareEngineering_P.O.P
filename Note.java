@@ -3,27 +3,28 @@
 package eng;
 
 import java.util.*;
-import java.io.*;
 
 /*
  * It seemed like the easiest and most intuitive thing to do would be to store the note as a file.  In the finished version,
  * i imagine the constructor being passes a string from a textarea on the gui.
+ * 
+ * 
+ * 3/23 	Reverted back to where the class is not sending to a file for now
  * */
 
 public class Note 
 {
-	private String title;
-	private File content;
-	private PrintStream out;
-	private Scanner in;
 	
-	public Note(String title, String c) 
-		throws FileNotFoundException
+	private static ArrayList<Note> notes = new ArrayList<Note>();
+	private String title;
+	private String content;
+	
+	public Note(String title, String content) 
 	{
 		super();
 		this.title = title;
-		this.out = new PrintStream(content = new File(title));
-		out.println(c);
+		this.content = content;
+		notes.add(this);
 	}
 	
 	public String getTitle()
@@ -31,15 +32,8 @@ public class Note
 		return title;
 	}
 	
-	public String output()
-		throws FileNotFoundException
+	public String toString()
 	{
-		String result = "";
-		in = new Scanner(content);
-		while(in.hasNextLine())
-		{
-			result = in.nextLine();
-		}
-		return result;
+		return title + "\n\n" + content;
 	}
 }
