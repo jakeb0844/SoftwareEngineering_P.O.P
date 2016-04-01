@@ -1,11 +1,7 @@
-package Events;
 //Cory Wheeless
-//3-18 old
-//3-23 Modified by Jake
-//Added the Arraylist and each time a new instance of event is created it adds to the arraylist
+//3-18
+package eng;
 
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,6 +9,8 @@ import java.util.Date;
  * Since many of the classes use some type of event to notify the user of something upcoming, i made a class. 
  * When an event is created, it stores the day of the event. Ideally, when the user starts up the application, some routine
  * would run similar to the check date below, but would check for all events.
+ * 
+ * Cory 	4/1		Took out static arrayList
  * */
 
 public class Event 
@@ -20,11 +18,6 @@ public class Event
 	private Calendar calendar;
 	private Date current;
 	private Date event;
-	private int theYear;
-	private int theMonth;
-	private int theDay;
-
-	public static ArrayList<Event> the = new ArrayList<Event>();
 	
 	public Event(int year, int month, int day)
 	{
@@ -33,12 +26,6 @@ public class Event
 
 		calendar.set(year, month, day);
 		event = calendar.getTime();
-		
-		 theYear = year;
-		 theMonth= month;
-		 theDay= day;
-		 
-		 the.add(this);
 	}
 	
 	public void checkDate()
@@ -58,16 +45,14 @@ public class Event
 		}
 	}
 	
-	public int getYear(){
-		return theYear;
-	}
-	
-	public int getMonth(){
-		return theMonth;
-	}
-	
-	public int getDay(){
-		return theDay;
-	}
-	
+	/*
+	public Event getClosest()
+	{
+		long result = events[0].getEvent();
+		
+		for(int i = 0;i < events.size(); i++)
+		{
+			
+		}
+	}*/
 }

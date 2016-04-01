@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 /*
  * Array list that stores all created contacts
+ * 
+ * Cory		4/1		Back to using this class instead of static array in contact class
  * */
 
 public class Contacts 
@@ -14,7 +16,7 @@ public class Contacts
 	
 	public Contacts()
 	{
-		contacts = new ArrayList<Contact>(25);
+		contacts = new ArrayList<Contact>();
 	}
 	
 	public void addContact(Contact c)

@@ -1,53 +1,55 @@
 //Cory Wheeless
 //3-18
-package test;
+package eng;
 
-import java.util.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 
 /*
  * It seemed like the easiest and most intuitive thing to do would be to store the note as a file.  In the finished version,
  * i imagine the constructor being passes a string from a textarea on the gui.
  * 
  * 
- * Cory		3/23 	Reverted back to where the class is not sending to a file for now
- * Cory		3/24	added save method. For some reason I have to declare FileOutputStream and ObjectOutputStream
- * 					inside class for some reason though. otherwise i get an exception	
- * 					added load method. this reads the info from .ser file and return Note object	
+ * 3/23 	Reverted back to where the class is not sending to a file for now
+ * 
+ * 4/1		Now have object persistence by serializing object to files in tmp
  * */
 
 public class Note 
-	implements Serializable 
+	implements Serializable
 {
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static ArrayList<Note> notes = new ArrayList<Note>();
 	private String title;
 	private String content;
-	//private FileOutputStream fileOut;
-	//private ObjectOutputStream out;
 	
 	public Note(String title, String content) 
 	{
 		super();
 		this.title = title;
 		this.content = content;
-		notes.add(this);
 	}
 	
-	public String getTitle()
+	//Just Trying to get load to work with constructor
+	public Note()
 	{
-		return title;
+		this.title = null;
+		this.content = null;
 	}
 	
 	public void save()
 	{
 		try
 		{
-			FileOutputStream fileOut = new FileOutputStream(new File(title + ".ser"));
+			FileOutputStream fileOut = new FileOutputStream(new File("tmp/" + title + ".ser"));
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 			out.close();
@@ -61,15 +63,17 @@ public class Note
 		}
 	}
 	
-	public Note load()
+	public Note load(String fileName)
 	{
 		Note result = null;
 		try
 		{
-			FileInputStream fileIn = new FileInputStream(this.title + ".ser");
+			FileInputStream fileIn = new FileInputStream("tmp/" + fileName + ".ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			
 			result = (Note)in.readObject();
+			this.title = result.getTitle();
+			this.content = result.getContent();
 			fileIn.close();
 			in.close();
 		}
@@ -84,6 +88,15 @@ public class Note
 		return result;
 	}
 	
+	public String getTitle()
+	{
+		return title;
+	}
+	
+	public String getContent()
+	{
+		return content;
+	}
 	
 	public String toString()
 	{
