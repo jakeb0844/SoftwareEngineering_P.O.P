@@ -25,6 +25,24 @@ public class Courses {
 		hours = h;
 		courses.add(this);
 	}
+	public static Courses getCourse(String s){
+		int r = 0;
+		int l = 0;
+		for(int i = 0; i<courses.size(); i++){
+			if(courses.get(i).getCourseTitle().equalsIgnoreCase(s)){
+				r = i;
+			}else{
+				for(int j = 0; i<courses.size(); i++){
+					if(courses.get(i).getCourseTitle().compareToIgnoreCase(s) > l){
+						l = courses.get(i).getCourseTitle().compareToIgnoreCase(s);
+						r = i;
+					}
+				}
+				
+			}
+		}
+		return courses.get(r);
+	}
 	
 	public void setCourse(String c){  //sets the name of the course
 		course = c;
@@ -141,6 +159,7 @@ public class Courses {
 			}
 			return r + "\n";
 	}
+	
 	
 	public String toString(){
 		String r = "Course: " + this.course + " " + this.meetDays + " " + this.hours + ".0 hours";
