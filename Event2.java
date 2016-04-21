@@ -1,9 +1,9 @@
-package Events;
+package tmp;
 //Cory Wheeless
 //3-18
 
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,8 +13,13 @@ import java.util.Date;
  * would run similar to the check date below, but would check for all events.
  * */
 
-public class Event2 
+public class Event2
+	implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 45;
 	private Calendar calendar;
 	private Date current;
 	private Date event;
@@ -22,8 +27,6 @@ public class Event2
 	private int theMonth;
 	private int theDay;
 	private String theDescription;
-
-	public static ArrayList<Event2> the = new ArrayList<Event2>();
 	
 	public Event2(int year, int month, int day, String description)
 	{
@@ -73,6 +76,13 @@ public class Event2
 	
 	public String getDescription(){
 		return theDescription;
+	}
+	
+	public String toString()
+	{
+		String result = "";
+		result = theDescription + "\n" + theYear + "\n";
+		return result;
 	}
 	
 }

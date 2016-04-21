@@ -1,26 +1,33 @@
 //Cory Wheeless
 //3-18
-package Contact;
+package tmp;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /*
  * Represents a contact by storing personal information
  * 
  * Cory		3/23	put the arraylist from Contacts here instead of having it in its own class
+ * 
+ * Cory		 4/1		Now have object persistence by serializing object to files in tmp
  * */
 
 public class Contact 
+	implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 45;
+
 	//Array of month names. The constructor takes in month number and uses this to store month string
 	private static String[] months= new String[] {"January", "February", "March", "April", "May", "June", "July",
 												  "August", "September", "October", "November", "December"};
-	public static ArrayList<Contact> contacts = new ArrayList<Contact>(25);
 	
 	private String lastName;
 	private String firstName;
 	private String birthMonth;
-	private int birthMonthNum;
+	private int birthDayMonthNum;
 	private int birthYear;
 	private int birthday;
 	private String phoneNumber;
@@ -33,14 +40,16 @@ public class Contact
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.birthMonth = monthNumberToString(birthMonth);
-		this.birthMonthNum=birthMonth;
+		this.birthDayMonthNum = birthMonth;
 		this.birthYear = birthYear;
 		this.birthday = birthday;
 		this.phoneNumber = phonenumberFix(phoneNumber);
 		this.address = address;
+	}
+	
+	public Contact()
+	{
 		
-		//Same thing as in the Event class.. see addContact class 
-		//contacts.add(this);
 	}
 	
 	public String getLastName() 
@@ -58,10 +67,9 @@ public class Contact
 		return birthMonth;
 	}
 	
-	//I think I (Jake) added this. Needed in the NewTabbedCalendar class I think
 	public int getBirthMonthNum()
 	{
-		return birthMonthNum;
+		return birthDayMonthNum;
 	}
 
 	public int getBirthYear() 
@@ -84,11 +92,6 @@ public class Contact
 		return address;
 	}
 	
-	public ArrayList<Contact> getContacts()
-	{
-		return contacts;
-	}
-	
 	//called by constructor to store month string instead of month number
 	private String monthNumberToString(int num)
 	{
@@ -104,26 +107,15 @@ public class Contact
 		result += num.substring(0, 3) + "-" + num.substring(3, 6) + "-" + num.substring(6);
 		return result;
 	}
-	
-	public String contactsToString()
-	{
-		String result = "";
-		int latest = contacts.size() - 1;
-		for(int i = latest; i >= 0; i--)
-		{
-			result += contacts.get(i).toString() + "\n";
-		}
-		
-		return result;
-		
-	}
 
 	@Override
 	public String toString() 
-	{
+	{/*
 		String result = "";
 		result = result + lastName;
 		
-		return result;
+		return result;*/
+		
+		return firstName + " " + lastName + "\n";
 	}
 }

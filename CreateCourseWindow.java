@@ -1,3 +1,5 @@
+package tmp;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -13,8 +15,12 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Window.Type;
 
-public class CreateCourseWindow extends JFrame {
+public class CreateCourseWindow extends Window {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 45;
 	private JPanel contentPane;
 	private JTextField CourseTitle;
 	private JTextField CourseMeetDays;
@@ -116,9 +122,14 @@ public class CreateCourseWindow extends JFrame {
 				String cMd = CourseMeetDays.getText();
 				int cMaxD = Integer.parseInt(MaxAbs.getText());
 				int cHrs = Integer.parseInt(CourseHours.getText());
-				Courses x = new Courses(cTitle, cMd, cMaxD, cHrs);
-			
-				window.printCourses();
+				
+				//public Course(String title, String meetDays, int pAbs, int creditHours, String term, int year)
+				Course x = new Course(cTitle, cMd, cMaxD, cHrs);
+				Semester tmp = new Semester();
+				tmp.load("Courses");
+				tmp.addCourse(x);
+				
+				Window.printCourse(semester);
 				contentPane.repaint();
 				
 				/*for(int i=0; i<Courses.courses.size(); i++){

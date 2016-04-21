@@ -1,6 +1,6 @@
-package Gui;
+package tmp;
 //3-23-16
-//Modified by Jake to incorporate the new event class also added the textfields, buttons, and labels to the calendarGui2 pane
+//Modified by Jake to incorporate the new event class also added the textfields, buttons, and labels to the CalendarGui2 pane
 //3-29-16
 //Modified by Jake to incorporate the contact class and the contact gui
 //4/3/16
@@ -12,6 +12,7 @@ package Gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.GregorianCalendar;
 
 import javax.swing.DefaultListModel;
@@ -27,12 +28,13 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Calendar.calendarGui2;
+/*
+import Calendar.CalendarGui2;
 import Contact.contactGui;
 import Contact.countBirthdays;
 import Events.Event2;
-import Events.countEvents;
-
+import Events.CountEvents;
+*/
 
 
 
@@ -46,6 +48,8 @@ public class NewTabbedCalendar {
 	 public static JPanel contacts;
 	 public static String descrip="";
 	 public static int count = 0;
+	 
+	 static EventCollection eventCollection = new EventCollection();
 
 	/**
 	 * Launch the application.
@@ -55,8 +59,8 @@ public class NewTabbedCalendar {
 			public void run() {
 				try {
 					NewTabbedCalendar window = new NewTabbedCalendar();
-					Events.countEvents.startArray();
-					Contact.countBirthdays.startArray();
+					CountEvents.startArray();
+					CountBirthdays.startArray();
 
 					window.frame.setVisible(true);
 					
@@ -71,10 +75,16 @@ public class NewTabbedCalendar {
 	 * Create the application.
 	 */
 	public NewTabbedCalendar() {
-		//Have to create instance of calendarGui2 to access the Panel which contains the calendar
+		//Have to create instance of CalendarGui2 to access the Panel which contains the calendar
 		//Probably can do this a different way, but this works for now
-		calendarGui2 gui = new calendarGui2();
-		contactGui gui2 = new contactGui();
+		CalendarGui2 gui = new CalendarGui2();
+		ContactGui gui2 = new ContactGui();
+		
+		File f = new File("sers/Events.ser");
+		if(f.exists())
+		{
+			eventCollection.load("Events");
+		}
 		
 		initialize();
 		
@@ -103,30 +113,30 @@ public class NewTabbedCalendar {
 				
 		//adds the pnlCalendar panel to the tabbed pane
 		//adds the contact panel to the tabbed pane
-		tabbedPane.addTab("My Calendar", null, calendarGui2.pnlCalendar, null);
-		tabbedPane.addTab("Contacts", null, contactGui.yoyo, null);
+		tabbedPane.addTab("My Calendar", null, CalendarGui2.pnlCalendar, null);
+		tabbedPane.addTab("Contacts", null, ContactGui.yoyo, null);
 		
 		
 		yearField = new JTextField();
 		yearField.setBounds(408, 46, 86, 20);
 		yearField.setText("2016");
-		calendarGui2.pnlCalendar.add(yearField);
+		CalendarGui2.pnlCalendar.add(yearField);
 		
 		yearField.setColumns(10);
 		
 		monthField = new JTextField();
 		monthField.setBounds(408, 77, 86, 20);
-		calendarGui2.pnlCalendar.add(monthField);
+		CalendarGui2.pnlCalendar.add(monthField);
 		monthField.setColumns(10);
 		
 		dayField = new JTextField();
 		dayField.setBounds(408, 108, 86, 20);
-		calendarGui2.pnlCalendar.add(dayField);
+		CalendarGui2.pnlCalendar.add(dayField);
 		dayField.setColumns(10);
 		
 		descripField= new JTextField();
 		descripField.setBounds(408, 139, 86, 20);
-		calendarGui2.pnlCalendar.add(descripField);
+		CalendarGui2.pnlCalendar.add(descripField);
 		descripField.setColumns(10);
 		
 		
@@ -141,10 +151,10 @@ public class NewTabbedCalendar {
 		monthLabel.setBounds(355, 77, 40,10);
 		dayLabel.setBounds(355,108,30,10);
 		descripLabel.setBounds(355, 139, 80, 10);
-		calendarGui2.pnlCalendar.add(yearLabel);
-		calendarGui2.pnlCalendar.add(monthLabel);
-		calendarGui2.pnlCalendar.add(dayLabel);
-		calendarGui2.pnlCalendar.add(descripLabel);
+		CalendarGui2.pnlCalendar.add(yearLabel);
+		CalendarGui2.pnlCalendar.add(monthLabel);
+		CalendarGui2.pnlCalendar.add(dayLabel);
+		CalendarGui2.pnlCalendar.add(descripLabel);
 		
 		
 		
@@ -175,14 +185,15 @@ public class NewTabbedCalendar {
 									Event2 e = new Event2(Integer.parseInt(yearField.getText()), Integer.parseInt(monthField.getText()), Integer.parseInt(dayField.getText())
 											, descripField.getText());
 									
-									Events.addEvents.add(e);
+									eventCollection.addEvent(e);//	addEvents.add(e);
+									
 							
 							
 									//after the event is added. Sets the desripField to empty
 									descripField.setText(null);
 									
 									//Have to refresh the calendar after every event is added
-									calendarGui2.refreshCalendar(calendarGui2.currentMonth, calendarGui2.currentYear);
+									CalendarGui2.refreshCalendar(CalendarGui2.currentMonth, CalendarGui2.currentYear);
 								}//end check duplicate if
 								else{
 									JOptionPane.showMessageDialog(null,"You already added that event!");
@@ -227,8 +238,8 @@ public class NewTabbedCalendar {
 		btnRemoveEvent.setBounds(395,240,102,23);
 		
 		//adds the button to pnlCalendar
-		calendarGui2.pnlCalendar.add(btnAddEvent);
-		calendarGui2.pnlCalendar.add(btnRemoveEvent);
+		CalendarGui2.pnlCalendar.add(btnAddEvent);
+		CalendarGui2.pnlCalendar.add(btnRemoveEvent);
 		
 		
 	}
@@ -252,16 +263,16 @@ public class NewTabbedCalendar {
 		
 //This adds the events to the listModel above, to make it clear for the user to select
 		for(int months =0; months < 12; months++){
-			for(int days =0; days < countEvents.months.get(months).length; days++){
+			for(int days =0; days < CountEvents.months.get(months).length; days++){
 				//count equals the number of events on that day
-				count = countEvents.getCountEvents(months, days);
+				count = CountEvents.getCountEvents(months, days);
 				
 				for(int i = 0; i < count; i++){
 					
 					//if an event falls on the day, add to the listModel
-					if(countEvents.months.get(months)[days][i] != null){
+					if(CountEvents.months.get(months)[days][i] != null){
 						
-						listModel.addElement((months+1)+"/"+(days+1)+"/"+calendarGui2.currentYear+"  "+countEvents.months.get(months)[days][i].getDescription());
+						listModel.addElement((months+1)+"/"+(days+1)+"/"+CalendarGui2.currentYear+"  "+CountEvents.months.get(months)[days][i].getDescription());
 						
 				}//end if
 			}//end i for
@@ -319,20 +330,21 @@ public class NewTabbedCalendar {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				//loop through the events	
-				for(int i =0; i < Events.Event2.the.size(); i++){
-					//compare the descriptions to the selected description aka sen					
-					if(sen.equals(Events.Event2.the.get(i).getDescription())){
+				for(int i =0; i < eventCollection.getSize(); i++){
+					//compare the descriptions to the selected description aka sen
+					
+					if(sen.equals(eventCollection.getEvent(i).getDescription())){
 						//if the sen is == to description in the events array.. check the day
-						if(d == Events.Event2.the.get(i).getDay()){
+						if(d == eventCollection.getEvent(i).getDay()){
 							//if == check the month
-							if(m == Events.Event2.the.get(i).getMonth()){
+							if(m == eventCollection.getEvent(i).getMonth()){
 								//if == check the year
-								if(y== Events.Event2.the.get(i).getYear()){
+								if(y== eventCollection.getEvent(i).getYear()){
 									
 									//now remove i which will be the Event object
-										Events.Event2.the.remove(i);
+										eventCollection.removeElement(i);
 									//Have to re-count the events
-										countEvents.countEm();
+										CountEvents.countEm();
 											
 										//now remove the item in the listmodel
 										//Loop through the list and find the items that are equal and remove the item
@@ -357,7 +369,7 @@ public class NewTabbedCalendar {
 				}//end outside for
 				
 				//refresh calendar	
-				calendarGui2.refreshCalendar(calendarGui2.currentMonth, calendarGui2.currentYear);
+				CalendarGui2.refreshCalendar(CalendarGui2.currentMonth, CalendarGui2.currentYear);
 					
 			}});//end actionPerformed
 		}//end getValueIsAdjusting
@@ -380,13 +392,13 @@ public class NewTabbedCalendar {
 	//method that checks if there are duplicate events on the same day
 	public Boolean checkDuplicate(String des, String day, String month){
 		
-	int len=	Events.countEvents.getCountEvents(Integer.parseInt(month)-1, Integer.parseInt(day)-1);
+	int len=	CountEvents.getCountEvents(Integer.parseInt(month)-1, Integer.parseInt(day)-1);
 	
 		boolean check=true;
-		
+	
 		for(int i =0; i < len; i++){
 			
-			if(Events.countEvents.months.get(Integer.parseInt(month)-1)[Integer.parseInt(day)-1][i].getDescription().toLowerCase().equals(des.toLowerCase())){
+			if(CountEvents.months.get(Integer.parseInt(month)-1)[Integer.parseInt(day)-1][i].getDescription().toLowerCase().equals(des.toLowerCase())){
 				check=false;
 			}
 			

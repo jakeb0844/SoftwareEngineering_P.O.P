@@ -1,58 +1,57 @@
-//Cory Wheeless
-//3-18
-package eng;
+package tmp;
 
 import java.util.Calendar;
 import java.util.Date;
-
-/*
- * Since many of the classes use some type of event to notify the user of something upcoming, i made a class. 
- * When an event is created, it stores the day of the event. Ideally, when the user starts up the application, some routine
- * would run similar to the check date below, but would check for all events.
- * 
- * Cory 	4/1		Took out static arrayList
- * */
 
 public class Event 
 {
 	private Calendar calendar;
 	private Date current;
 	private Date event;
+	private int theYear;
+	private int theMonth;
+	private int theDay;
+	private String theDescription;
 	
-	public Event(int year, int month, int day)
+	public Event(int year, int month, int day, String description)
 	{
 		calendar = Calendar.getInstance();
 		current = calendar.getTime();
 
 		calendar.set(year, month, day);
 		event = calendar.getTime();
+		
+		 theYear = year;
+		 theMonth= month;
+		 theDay= day;
+		 theDescription=description;
 	}
 	
-	public void checkDate()
+	public Event()
 	{
-		long secondsBetween = event.getTime() - current.getTime();
 		
-		long fiveDays = 1000 * 86400 * 5;
-		
-		if(secondsBetween < fiveDays)
-		{
-			System.out.println("Upcoming event in " + (((secondsBetween / 1000) / 60) / 60) / 24 + " days");
-			
-		}
-		else
-		{
-			System.out.println("No upcoming event");
-		}
 	}
 	
-	/*
-	public Event getClosest()
+	public int getYear(){
+		return theYear;
+	}
+	
+	public int getMonth(){
+		return theMonth;
+	}
+	
+	public int getDay(){
+		return theDay;
+	}
+	
+	public String getDescription(){
+		return theDescription;
+	}
+	
+	public String toString()
 	{
-		long result = events[0].getEvent();
-		
-		for(int i = 0;i < events.size(); i++)
-		{
-			
-		}
-	}*/
+		String result = "";
+		result = theDescription + "\n" + theYear + "\n";
+		return result;
+	}
 }

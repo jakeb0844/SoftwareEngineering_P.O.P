@@ -1,72 +1,53 @@
 //Cory Wheeless
 //3-18
-package eng;
+package tmp;
 
-import java.io.File;
-import java.util.*;
+import java.io.Serializable;
 
 /*
  * Can store notes in a category arraylist or just in a note arraylist uncategorized
  * Cory		4/1		Back to using this class.
  * */
 
+@SuppressWarnings("rawtypes")
 public class Notebook 
+	extends PackageCollection implements Serializable
 {
-	private ArrayList<Note> notes;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 45;
 	
-	public Notebook()
+	@SuppressWarnings("unchecked")
+	public void addNote(Note n)
 	{
-		notes = new ArrayList<Note>();
+		super.addElement(n);
 	}
 	
-	public Notebook(Note n)
+	/*
+	//check if no note of title
+	public Note getNote(String title)
 	{
-		this.notes.add(n);
-	}
-	
-	public void save()
-	{
-		for(Note temp : notes)
+		Note result = new Note();
+		for(int i = 0; i < super.getSize(); i++)
 		{
-			temp.save();
-		}
-	}
-	
-	public void load()
-	{
-		File dir = new File("Notes/");
-		File[] allFiles = dir.listFiles();
-		
-		Note n = new Note();
-		String title;
-		
-		for(File f : allFiles)
-		{
-			title = f.getName();
-			n.load(noExtension(title));
-			notes.add(n);
-		}
-	}
-	
-	private String noExtension(String s)
-	{
-		String result = "";
-		char index;
-		
-		for(int i = 0; i < s.length(); i++)
-		{
-			index = s.charAt(i);
-			if(index == '.')
+			result = notes.get(i);
+			
+			if(result.getTitle().equals(title))
 			{
-				result = s.substring(0, i);
 				break;
 			}
 		}
 		return result;
-	}
-	
-	public void addNote(Note n)
+	}*/
+	/*
+	public String toString()
 	{
-		this.notes.add(n);
-	}
+		String result = "";
+		for(int i = 0; i < this.size(); i++)
+		{
+			result += notes.get(i).toString() + "\n";
+		}
+		return result;
+	}*/
 }

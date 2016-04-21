@@ -1,21 +1,35 @@
-package eng;
+package tmp;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 /*
  * Cory		4/1		Collection that holds events		
  * */
 
-public class Events 
+@SuppressWarnings("rawtypes")
+public class Events
+	extends PackageCollection implements Serializable
 {
-	private ArrayList<Event> events; 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 45;
 	
 	public Events()
 	{
-		events = new ArrayList<Event>();
+		super();
 	}
 	
-	public void add(Event e)
+	/*
+	public ArrayList<Event2> getAllEvents()
 	{
-		events.add(e);
+		ArrayList<Event2> result = new ArrayList<Event2>();
+		
+		for(int i = 0; i < super.getSize(); i++)
+		{
+			result.add((Event2)super.getElement(i));
+		}
+		
+		return result;
 	}
+	*/
 }
